@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipuntos - #Reciclaconsciente</title>
+    <link rel="icon" href="https://reciclaconsciente.pe/wp-content/uploads/2025/05/cropped-ReciclaIco06Verde-150x150.png" sizes="32x32"/>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for elements not easily covered by Tailwind or for specific overrides */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+        }
+
+        .section-background {
+            background-color: #265970; /* Base color */
+            background-image: url('https://reciclaconsciente.pe/wp-content/uploads/2025/05/backgroundGlobal.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-blend-mode: multiply; /* Blends color with image */
+        }
+
+        .heading-rotated {
+            transform: rotateZ(-4deg); /* Simulating the Elementor transform effect */
+            display: inline-block; /* Allows rotation */
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #60FF8F, #265970); /* Example gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #265970; /* Fallback for non-webkit browsers */
+        }
+
+        /* Styles for the custom tabs */
+        .custom-tabs-header button {
+            @apply px-4 py-2 text-lg font-semibold text-gray-700 bg-gray-200 rounded-t-lg transition-colors duration-200;
+        }
+        .custom-tabs-header button.active {
+            @apply bg-white text-green-700;
+        }
+        .custom-tab-content {
+            @apply bg-white p-6 rounded-b-lg shadow-lg;
+        }
+
+        /* Styles for the custom modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Map Placeholder Style */
+        #map {
+            width: 100%;
+            height: 400px; /* Adjust as needed */
+            background-color: #e0e0e0; /* Gray background for placeholder */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-size: 1.2rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments for overall layout */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px; /* Max width for wider screens */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header Section -->
+    <header class="section-background py-4">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
+            <div class="flex-shrink-0 mb-4 md:mb-0">
+                <a href="index.html">
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Logotipo.webp" alt="Recipuntos Logo" class="w-32 md:w-48 rounded-lg">
+                </a>
+            </div>
+            <nav class="w-full md:w-auto">
+                <!-- Mobile Menu Button (Hamburger) -->
+                <button id="mobile-menu-button" class="md:hidden block text-white focus:outline-none p-2 rounded-md float-right">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Desktop Menu -->
+                <ul id="desktop-menu" class="hidden md:flex space-x-6 text-white text-lg font-medium">
+                    <li><a href="productos-reciclables.html" class="hover:text-green-300 transition-colors duration-200">Productos reciclables</a></li>
+                    <li><a href="#estaciones" class="hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
+                    <li><a href="recicla-en-casa.html" class="hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
+                    <li><a href="#socios" class="hover:text-green-300 transition-colors duration-200">Socios y aliados</a></li>
+                    <li><a href="unete.html" class="hover:text-green-300 transition-colors duration-200">Únete</a></li>
+                </ul>
+
+                <!-- Mobile Menu (Dropdown) -->
+                <ul id="mobile-menu" class="md:hidden hidden bg-gray-800 p-4 rounded-lg mt-2 text-white text-center">
+                    <li class="py-2"><a href="productos-reciclables.html" class="block hover:text-green-300 transition-colors duration-200">Productos reciclables</a></li>
+                    <li class="py-2"><a href="#estaciones" class="block hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
+                    <li class="py-2"><a href="recicla-en-casa.html" class="block hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
+                    <li class="py-2"><a href="#socios" class="block hover:text-green-300 transition-colors duration-200">Socios y aliados</a></li>
+                    <li class="py-2"><a href="unete.html" class="block hover:text-green-300 transition-colors duration-200">Únete</a></li>
+                </ul>
+            </nav>
+            <!-- Removed the Makro, Vivanda, and Plaza Vea brand logos as requested -->
+            <!--
+            <div class="flex flex-row space-x-2 mt-4 md:mt-0">
+                <a href="https://www.makro.pe/ofertas-marcas-makro" target="_blank" class="w-16 h-auto md:w-24 rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Losvg03-1.svg" alt="Makro Logo" class="object-cover w-full h-full">
+                </a>
+                <a href="https://www.vivanda.com.pe/?utm_source=reciclaconsciente.pe&utm_medium=logo_externo&utm_campaign=reclicaconsciente" target="_blank" class="w-16 h-auto md:w-24 rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Losvg02-1.svg" alt="Vivanda Logo" class="object-cover w-full h-full">
+                </a>
+                <a href="https://www.plazavea.com.pe/?utm_source=reciclaconsciente.pe&utm_medium=logo_externo&utm_campaign=reclicaconsciente" target="_blank" class="w-16 h-auto md:w-24 rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Losvg01.svg" alt="Plaza Vea Logo" class="object-cover w-full h-full">
+                </a>
+            </div>
+            -->
+        </div>
+    </header>
+
+    <main class="site-main">
+        <!-- Hero Section (Adapted from Carousel) -->
+        <section class="section-background py-16 px-4 text-white text-center">
+            <div class="container mx-auto flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
+                <!-- Slide 1 Content -->
+                <div class="flex flex-col items-center max-w-md">
+                    <h2 class="text-4xl font-bold mb-4 heading-rotated">¿SABÍAS QUE...</h2>
+                    <p class="text-xl mb-4">en el Perú generamos más de 21 mil toneladas de residuos sólidos y solo se recicla el 1%?</p>
+                    <p class="text-sm font-light">FUENTE: MINAM 2024</p>
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/BienvenidaHome-min.webp" alt="Recycling illustration" class="mt-8 w-full max-w-xs md:max-w-sm rounded-lg shadow-lg">
+                </div>
+                <!-- Slide 2 Content -->
+                <div class="flex flex-col items-center max-w-md">
+                    <div class="flex flex-col">
+                        <h2 class="text-4xl font-bold mb-2 heading-rotated">EN</h2>
+                        <h2 class="text-4xl font-bold mb-2 heading-rotated">RECICLA</h2>
+                        <h2 class="text-4xl font-bold mb-4 heading-rotated">CONSCIENTE</h2>
+                    </div>
+                    <p class="text-xl mb-4">Unimos empresas, municipalidades, reciclador@s y a ciudadan@s como tú para cambiar esta realidad.</p>
+                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/BienvenidaHome02.webp" alt="Community recycling" class="mt-8 w-full max-w-xs md:max-w-sm rounded-lg shadow-lg">
+                </div>
+            </div>
+        </section>
+
+        <!-- Recicla en Casa Section -->
+        <section class="section-background py-16 px-4 text-white text-center" id="recicla-en-casa">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold mb-4 heading-rotated">
+                    SEPARA<br>TUS RECICLABLES
+                </h2>
+                <h2 class="text-4xl font-bold mb-8">EN CASA</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="w-full h-48 bg-black rounded-lg overflow-hidden flex items-center justify-center">
+                            <video class="w-full h-full object-cover" src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/diaDelRecicladorMotivoTetraPak.mp4" controls preload="metadata" controlsList="nodownload"></video>
+                        </div>
+                        <p class="text-lg font-medium mt-4">Aprende a reciclar con l@s expert@s Tetra Pak®</p>
+                    </div>
+                    <div class="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="w-full h-48 bg-black rounded-lg overflow-hidden flex items-center justify-center">
+                            <video class="w-full h-full object-cover" src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/familiaDe3.mp4" controls preload="metadata" controlsList="nodownload"></video>
+                        </div>
+                        <p class="text-lg font-medium mt-4">Aprende a reciclar con l@s expert@s papel</p>
+                    </div>
+                    <div class="flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="w-full h-48 bg-black rounded-lg overflow-hidden flex items-center justify-center">
+                            <video class="w-full h-full object-cover" src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/motivo.mp4" controls preload="metadata" controlsList="nodownload"></video>
+                        </div>
+                        <p class="text-lg font-medium mt-4">Aprende a reciclar con l@s expert@s botellas PET</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estaciones de Reciclaje Section -->
+        <section class="section-background py-16 px-4 text-white text-center" id="estaciones">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold mb-4 heading-rotated">Y DÉJALOS EN NUESTRAS</h2>
+                <h2 class="text-4xl font-bold mb-8">ESTACIONES DE RECICLAJE</h2>
+
+                <!-- Map Placeholder -->
+                <div id="map">
+                    Mapa interactivo de Google Maps vendría aquí.
+                    <br>
+                    (Requiere API Key y JS personalizado para la integración completa)
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg mt-8">
+                    <div class="flex flex-col md:flex-row justify-around items-center mb-6">
+                        <div class="rcsl-filter-group mb-4 md:mb-0">
+                            <h4 class="text-white text-lg font-semibold mb-2">Provincia</h4>
+                            <select id="rcsl-filter-province" class="rcsl-filter-select px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600">
+                                <option value="all">TODAS</option>
+                                <option value="lima">Lima</option>
+                                <option value="arequipa">Arequipa</option>
+                                <!-- More provinces -->
+                            </select>
+                        </div>
+
+                        <div class="rcsl-filter-group" id="rcsl-filter-districts-group">
+                            <h4 class="text-white text-lg font-semibold mb-2">Distrito</h4>
+                            <select id="rcsl-filter-district" class="rcsl-filter-select px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600">
+                                <option value="all">TODOS</option>
+                                <option value="miraflores">Miraflores</option>
+                                <option value="san_isidro">San Isidro</option>
+                                <!-- More districts -->
+                            </select>
+                        </div>
+
+                        <button class="rcsl-clear-filters bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200 mt-4 md:mt-0" disabled>Ver todas</button>
+                    </div>
+
+                    <!-- Custom Tabs for Recycling Types -->
+                    <div class="custom-tabs mt-8">
+                        <div class="custom-tabs-header flex flex-wrap justify-center space-x-2">
+                            <button data-tab="papel" class="active">Papel y cartón</button>
+                            <button data-tab="plastico-pet">Plástico PET</button>
+                            <button data-tab="plastico-duro">Plástico duro</button>
+                            <button data-tab="tetra-pak">Tetra Pak</button>
+                            <button data-tab="vidrio">Vidrio</button>
+                            <button data-tab="latas">Latas</button>
+                            <button data-tab="raee">RAEE</button>
+                        </div>
+
+                        <div id="papel" class="custom-tab-content active">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoPapelFinal.webp" alt="Papel Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Papel y Cartón</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar hojas blancas usadas y sin usar, hojas de cuaderno, fotocopias, fax, cartas, periódicos, revistas, folletos, cartón corrugado, cartulinas, cajas de embalaje, kraft, cilindros de papel absorbente e higiénico, papel y cartón plastificado o encerado.</p>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar limpios y secos.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: papel higiénico, papel toalla, servilletas, papel térmico.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="plastico-pet" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoPlsticoFinal.webp" alt="PET Plastic Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Plástico PET</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar botellas desechables de bebidas, aguas, jugos, yogurts, productos de higiene personal y limpieza (transparentes y de color), bandejas de frutas y domos de torta. Puedes identificarlos fácilmente porque cuentan con este símbolo:</p>
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/P01.webp" alt="PET Symbol" class="w-24 h-24 mb-4 rounded-lg">
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar limpios, secos y compactados.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: envases de aceite.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="plastico-duro" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoPlastico2Final.webp" alt="Hard Plastic Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Plástico duro</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar tapas de botellas, bidones, botellas de shampoo, cremas y de cosméticos, así como envases de detergente, de productos lácteos, de mantequilla y margarina. Puedes identificarlos fácilmente porque cuentan con estos símbolos:</p>
+                                    <div class="flex space-x-4 mb-4">
+                                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/P02.webp" alt="HDPE Symbol" class="w-24 h-24 rounded-lg">
+                                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/P05.webp" alt="PP Symbol" class="w-24 h-24 rounded-lg">
+                                    </div>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar limpios, secos y compactados.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: envases de tecnopor o poliestireno, bolsas de plástico ni de alimentos.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="tetra-pak" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoTetraFinal.webp" alt="Tetra Pak Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Tetra Pak<sup>®</sup></h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar envases de cartón para leches, jugos, vino y cremas.</p>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar enjuagados, secos, desarmados y aplastados.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: cartones plastificados ni vasos de papel para bebidas calientes.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vidrio" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoBotellaFinal.webp" alt="Glass Bottle Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Vidrio</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar botellas de cerveza, jugos, vino, leche y yogurt, así como envases de vidrio para conservas.</p>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar limpios y secos.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: espejos, cristales y lozas, tubos fluorescentes, focos ahorradores, ni vidrios de automóviles.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="latas" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoLataFinal.webp" alt="Can Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Latas</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar latas de aluminio de cerveza, gaseosas, bebidas energizantes, leche, conservas, jugos y aerosoles. Además se pueden reciclar envases de hojalata de leche, bebidas y café.</p>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: deben estar limpios, secos y sin etiquetas.</li>
+                                        <li class="flex items-center"><svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> No reciclamos: latas de pintura y químicos.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="raee" class="custom-tab-content hidden">
+                            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                                <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
+                                    <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IconoRAEEFinal.webp" alt="RAEE Icon" class="w-full h-full object-contain">
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">RAEE y Cartuchos HP</h3>
+                                    <p class="text-gray-700 mb-4">Se pueden reciclar todos los cartuchos y botellas para impresoras de tinta HP, todos los cartuchos para impresoras de tóner HP, cajas y empaques donde vienen los cartuchos HP, así como cartuchos de tinta y tóner de las marcas HP y Samsung. También se pueden reciclar aparatos eléctricos y electrónicos (que funcionan a pilas, baterías o con energía eléctrica) que no sobrepasen los 25 cm (Tablets, celulares, cargadores, audífonos, cables, etc).</p>
+                                    <ul class="text-gray-700 list-none p-0">
+                                        <li class="flex items-center mb-2"><svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Recuerda: que deben ser del tamaño correspondiente.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics Section -->
+        <section class="section-background py-16 px-4 text-white text-center">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold mb-8">Durante el 2024, junt@s reciclamos</h2>
+                <div class="text-5xl font-extrabold mb-8 text-green-400">
+                    <span id="kilos-counter" data-target="123962">0</span> kg.
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                    <div class="flex flex-col items-center">
+                        <svg aria-hidden="true" class="w-16 h-16 text-white mb-4" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M378.31 378.49L298.42 288h30.63c9.01 0 16.98-5 20.78-13.06 3.8-8.04 2.55-17.26-3.28-24.05L268.42 160h28.89c9.1 0 17.3-5.35 20.86-13.61 3.52-8.13 1.86-17.59-4.24-24.08L203.66 4.83c-6.03-6.45-17.28-6.45-23.32 0L70.06 122.31c-6.1 6.49-7.75 15.95-4.24 24.08C69.38 154.65 77.59 160 86.69 160h28.89l-78.14 90.91c-5.81 6.78-7.06 15.99-3.27 24.04C37.97 283 45.93 288 54.95 288h30.63L5.69 378.49c-6 6.79-7.36 16.09-3.56 24.26 3.75 8.05 12 13.25 21.01 13.25H160v24.45l-30.29 48.4c-5.32 10.64 2.42 23.16 14.31 23.16h95.96c11.89 0 19.63-12.52 14.31-23.16L224 440.45V416h136.86c9.01 0 17.26-5.2 21.01-13.25 3.8-8.17 2.44-17.47-3.56-24.26z"></path></svg>
+                        <h3 class="text-2xl font-semibold mb-2">Número de árboles</h3>
+                        <div class="text-4xl font-extrabold text-green-400">
+                            <span id="trees-counter" data-target="655">0</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <svg aria-hidden="true" class="w-16 h-16 text-white mb-4" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M378.31 378.49L298.42 288h30.63c9.01 0 16.98-5 20.78-13.06 3.8-8.04 2.55-17.26-3.28-24.05L268.42 160h28.89c9.1 0 17.3-5.35 20.86-13.61 3.52-8.13 1.86-17.59-4.24-24.08L203.66 4.83c-6.03-6.45-17.28-6.45-23.32 0L70.06 122.31c-6.1 6.49-7.75 15.95-4.24 24.08C69.38 154.65 77.59 160 86.69 160h28.89l-78.14 90.91c-5.81 6.78-7.06 15.99-3.27 24.04C37.97 283 45.93 288 54.95 288h30.63L5.69 378.49c-6 6.79-7.36 16.09-3.56 24.26 3.75 8.05 12 13.25 21.01 13.25H160v24.45l-30.29 48.4c-5.32 10.64 2.42 23.16 14.31 23.16h95.96c11.89 0 19.63-12.52 14.31-23.16L224 440.45V416h136.86c9.01 0 17.26-5.2 21.01-13.25 3.8-8.17 2.44-17.47-3.56-24.26z"></path></svg>
+                        <h3 class="text-2xl font-semibold mb-2">Agua ahorrada</h3>
+                        <div class="text-4xl font-extrabold text-green-400">
+                            <span id="water-counter" data-target="1002">0</span> m<sup>3</sup>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <svg aria-hidden="true" class="w-16 h-16 text-white mb-4" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M378.31 378.49L298.42 288h30.63c9.01 0 16.98-5 20.78-13.06 3.8-8.04 2.55-17.26-3.28-24.05L268.42 160h28.89c9.1 0 17.3-5.35 20.86-13.61 3.52-8.13 1.86-17.59-4.24-24.08L203.66 4.83c-6.03-6.45-17.28-6.45-23.32 0L70.06 122.31c-6.1 6.49-7.75 15.95-4.24 24.08C69.38 154.65 77.59 160 86.69 160h28.89l-78.14 90.91c-5.81 6.78-7.06 15.99-3.27 24.04C37.97 283 45.93 288 54.95 288h30.63L5.69 378.49c-6 6.79-7.36 16.09-3.56 24.26 3.75 8.05 12 13.25 21.01 13.25H160v24.45l-30.29 48.4c-5.32 10.64 2.42 23.16 14.31 23.16h95.96c11.89 0 19.63-12.52 14.31-23.16L224 440.45V416h136.86c9.01 0 17.26-5.2 21.01-13.25 3.8-8.17 2.44-17.47-3.56-24.26z"></path></svg>
+                        <h3 class="text-2xl font-semibold mb-2">Petróleo ahorrado</h3>
+                        <div class="text-4xl font-extrabold text-green-400">
+                            <span id="oil-counter" data-target="12564">0</span> lt
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-8 md:col-span-3">
+                        <svg aria-hidden="true" class="w-16 h-16 text-white mb-4" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M378.31 378.49L298.42 288h30.63c9.01 0 16.98-5 20.78-13.06 3.8-8.04 2.55-17.26-3.28-24.05L268.42 160h28.89c9.1 0 17.3-5.35 20.86-13.61 3.52-8.13 1.86-17.59-4.24-24.08L203.66 4.83c-6.03-6.45-17.28-6.45-23.32 0L70.06 122.31c-6.1 6.49-7.75 15.95-4.24 24.08C69.38 154.65 77.59 160 86.69 160h28.89l-78.14 90.91c-5.81 6.78-7.06 15.99-3.27 24.04C37.97 283 45.93 288 54.95 288h30.63L5.69 378.49c-6 6.79-7.36 16.09-3.56 24.26 3.75 8.05 12 13.25 21.01 13.25H160v24.45l-30.29 48.4c-5.32 10.64 2.42 23.16 14.31 23.16h95.96c11.89 0 19.63-12.52 14.31-23.16L224 440.45V416h136.86c9.01 0 17.26-5.2 21.01-13.25 3.8-8.17 2.44-17.47-3.56-24.26z"></path></svg>
+                        <h3 class="text-2xl font-semibold mb-2">Energía ahorrada</h3>
+                        <div class="text-4xl font-extrabold text-green-400">
+                            <span id="energy-counter" data-target="499724">0</span> Kwh
+                        </div>
+                    </div>
+                </div>
+                <h2 class="text-4xl font-bold mt-12 mb-4">¡GRACIAS!</h2>
+                <p class="text-lg">Con tu apoyo, logramos reducir el consumo de recursos naturales y compensamos al planeta de la siguiente manera:</p>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="bg-gradient-to-br from-green-300 to-green-600 py-16 px-4 text-white text-center">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold mb-8">¿QUÉ TAN EXPERT@ DEL RECICLAJE ERES?</h2>
+                <a href="quiz.html" class="bg-white text-green-700 font-bold py-4 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300 text-xl inline-block">Descúbrelo aquí</a>
+                <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/IMG_2552.webp" alt="Recycling Quiz Image" class="mt-8 mx-auto w-full max-w-sm rounded-lg shadow-lg">
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section class="section-background py-16 px-4 text-white text-center" id="socios">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold mb-8">CONOCE A NUESTROS<br>SOCIOS Y ALIADOS</h2>
+                <h3 class="text-3xl font-semibold mb-8">SOCIOS</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
+                    <!-- Partner Logos - using direct URLs for simplicity -->
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="ngr">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoNGRBlanco.png" alt="NGR Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="pamolsa">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoPamolsaBlanco.png" alt="Pamolsa Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="florida">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoFloridaBlanco.png" alt="Florida Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="clorox">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoCloroxBlanco.png" alt="Clorox Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="colgate">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoColga2B.png" alt="Colgate Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="zegel">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoZege2b.png" alt="Zegel Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="utp">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02UTPBlanco.png" alt="UTP Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="unilever">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoUnileverBlanco.png" alt="Unilever Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="softys">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoSoftys2B-01.png" alt="Softys Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="nestle">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoNestb.png" alt="Nestle Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="natura">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoNatura2B-01.png" alt="Natura Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="movistar">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02MovoBlanco.png" alt="Movistar Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="la_tinka">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoTinkab.png" alt="La Tinka Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="kenv">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoKenvBlanco.png" alt="Kenv Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="inka_farma">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Logotipoaliv02Blanco.png" alt="Inkafarma Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="gar">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoGar02Blanco.png" alt="Gar Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="entel">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoEntel2B-01.png" alt="Entel Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="brit">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoBrit02Blanco.png" alt="Brit Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="arc">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoArca2B-01.png" alt="Arca Continental Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105 cursor-pointer partner-logo" data-partner="amayu">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoAmayu2B-01.png" alt="Amayu Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+
+                <h3 class="text-3xl font-semibold mb-8 mt-12">ALIADOS</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                    <!-- Alliance Logos -->
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAliadoBexbb.png" alt="Bex Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAliadoLoopbb.png" alt="Loop Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAliadoMinamBlanco.png" alt="Minam Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg flex items-center justify-center h-24 shadow-md transition-transform duration-300 hover:scale-105">
+                        <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAliadoPerubb.png" alt="Peru Logo" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="section-background py-8 text-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 text-center md:text-left">
+            <div class="mb-6 md:mb-0">
+                <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoNegativoP.webp" alt="Recipuntos Footer Logo" class="w-24 mx-auto md:mx-0 mb-4 rounded-lg">
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>
+                    </a>
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.933-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                    </a>
+                    <a href="#" class="text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row md:space-x-8 mt-6 md:mt-0">
+                <ul class="list-none p-0 mb-4 md:mb-0">
+                    <li class="mb-2"><a href="productos-reciclables.html" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Productos reciclables
+                    </a></li>
+                    <li class="mb-2"><a href="#estaciones" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Estaciones de reciclaje
+                    </a></li>
+                    <li class="mb-2"><a href="recicla-en-casa.html" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Recicla en casa
+                    </a></li>
+                </ul>
+                <ul class="list-none p-0">
+                    <li class="mb-2"><a href="#socios" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Socios y aliados
+                    </a></li>
+                    <li class="mb-2"><a href="unete.html" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Únete
+                    </a></li>
+                    <li class="mb-2"><a href="quiz.html" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> ¿Qué tan exper@ del reciclaje eres?
+                    </a></li>
+                    <li class="mb-2"><a href="#recicla-en-casa" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Recursos educativos
+                    </a></li>
+                    <li><a href="#" class="flex items-center justify-center md:justify-start text-white hover:text-green-300 transition-colors duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"></path></svg> Prensa
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Universal Modal for Partner Details -->
+    <div id="partner-modal" class="modal-overlay hidden">
+        <div class="modal-content-container">
+            <button class="modal-close-button" id="close-partner-modal">&times;</button>
+            <div id="partner-modal-content" class="text-gray-800">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after clicking anchor link
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Tab functionality for Estaciones de Reciclaje
+        const tabButtons = document.querySelectorAll('.custom-tabs-header button');
+        const tabContents = document.querySelectorAll('.custom-tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Deactivate all buttons and hide all content
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                // Activate clicked button and show corresponding content
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.remove('hidden');
+            });
+        });
+
+        // Counters animation
+        function animateCounter(id, target, duration) {
+            const element = document.getElementById(id);
+            if (!element) return; // Exit if element not found
+
+            let start = 0;
+            const end = parseInt(target);
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = current.toLocaleString('en-US'); // Add comma separators
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+
+        // Trigger counters on scroll
+        const counters = [
+            { id: 'kilos-counter', target: '123962' },
+            { id: 'trees-counter', target: '655' },
+            { id: 'water-counter', target: '1002' },
+            { id: 'oil-counter', target: '12564' },
+            { id: 'energy-counter', target: '499724' }
+        ];
+
+        const counterSection = document.querySelector('#kilos-counter').closest('section');
+        let countersAnimated = false;
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersAnimated) {
+                    counters.forEach(counter => {
+                        animateCounter(counter.id, counter.target, 2000); // 2000ms duration
+                    });
+                    countersAnimated = true;
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+
+        if (counterSection) {
+            observer.observe(counterSection);
+        }
+
+
+        // Partner Modals Data and Logic
+        const partnersData = {
+            ngr: {
+                title: "NGR",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoNGRBlanco.png",
+                content: `<p>Información detallada sobre NGR (Texto original: no disponible en el fragmento proporcionado para socios sin modal de contenido).</p>`
+            },
+            pamolsa: {
+                title: "Pamolsa",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoPamolsaBlanco.png",
+                content: `<p>Información detallada sobre Pamolsa (Texto original: no disponible en el fragmento proporcionado para socios sin modal de contenido).</p>`
+            },
+            florida: {
+                title: "Florida",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoFloridaBlanco.png",
+                content: `<p>Información detallada sobre Florida (Texto original: no disponible en el fragmento proporcionado para socios sin modal de contenido).</p>`
+            },
+            clorox: {
+                title: "Clorox",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/06/LogotipoCloroxBlanco.png",
+                content: `<p>Información detallada sobre Clorox (Texto original: no disponible en el fragmento proporcionado para socios sin modal de contenido).</p>`
+            },
+            colgate: {
+                title: "Colgate",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoColga2B.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoColgateGCompe.png" alt="Colgate Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-1.png" alt="Colgate Commitment 1" class="w-full h-auto mb-4 rounded-lg"/>
+                          <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-2.png" alt="Colgate Commitment 2" class="w-full h-auto mb-4 rounded-lg"/>`
+            },
+            zegel: {
+                title: "Zegel",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoZege2b.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoZege2CGra.png" alt="Zegel Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>Desde Zegel nos hemos propuesto integrar la sostenibilidad como un pilar de aprendizaje y desarrollo para cada uno de nuestros estudiantes y la comunidad. De esa manera, generamos un impacto positivo en el ámbito ambiental y social de nuestro entorno, como parte de nuestro compromiso con la educación y el medioambiente.</p>`
+            },
+            utp: {
+                title: "UTP",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02UTPBlanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/03AusLogoUTP.png" alt="UTP Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En la UTP queremos transformar la vida de cada uno de nuestros estudiantes para siempre. Eso implica un compromiso con la Sostenibilidad. Buscamos ser referentes en la transferencia de conocimiento y desarrollo tecnológico a través de nuestros centros de investigación, en el desarrollo de conciencia de sostenibilidad en nuestra formación académica y políticas de responsabilidad social y relación con el entorno.</p>
+                          <p>Nuestros compromisos para el presente año son:</p>
+                          <ul class="list-disc list-inside">
+                              <li>Obtención de la primera estrella de la Huella de Carbono Perú por parte del MINAM</li>
+                              <li>Plan de Gestión Ambiental como directriz para todos nuestros campus</li>
+                              <li>Impulsar la investigación y transferencia en temas de gestión ambiental.</li>
+                              <li>Activar en nuestra comunidad universitaria competencias de sostenibilidad desde el frente ambiental y social.</li>
+                          </ul>`
+            },
+            unilever: {
+                title: "Unilever",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoUnileverBlanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoUnileverGrCompande.png" alt="Unilever Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>Somos una compañía de marcas y personas con un propósito claro: hacer de la sustentabilidad algo cotidiano.</p>
+                          <p>A más de 10 años de presentar el Plan de Vida Sustentable de Unilever con el fin de demostrar que la sustentabilidad y el crecimiento del negocio están vinculados, nos proponemos crear un movimiento en el que todos nuestros proveedores, clientes y consumidores sean parte de la construcción de un futuro mejor.</p>
+                          <p>Nuestra estrategia de sustentabilidad está basada en 3 grandes áreas: mejorar la salud del planeta; mejorar la salud, confianza y bienestar de las personas; y contribuir con un mundo más justo y socialmente inclusivo.</p>
+                          <p>En 2019 establecimos importantes metas para acelerar la transición hacia una economía circular. Para 2025 nos comprometemos a:<br>
+                          Reducir a la mitad el uso de plástico virgen, eliminando más de 100.000 toneladas de plástico de nuestros empaques.<br>
+                          Acelerar el uso de plástico reciclado (PCR), logrando un 25% de uso de PCR en nuestros envases.<br>
+                          Ayudar a recolectar y procesar más envases plásticos de los que vendemos.<br>
+                          Lograr que el 100% de nuestros envases sean reciclables, reutilizables o aptos para compostaje.</p>`
+            },
+            softys: {
+                title: "Softys",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoSoftys2B-01.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoSoftys2BBP.png" alt="Softys Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p> <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Softcompr-1024x615.png" alt="" width="800" height="480" class="w-full h-auto mb-4 rounded-lg"/></p>`
+            },
+            nestle: {
+                title: "Nestlé",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoNestb.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/nestlcompe.png" alt="Nestlé Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p><strong>Texto de Compromiso</strong><br>
+                          Nestlé Perú está comprometido para que al 2025 todos sus empaques sean diseñados para reciclar, así como también reducir en un tercio el uso de plástico virgen en sus empaques. Además; hoy el 100% de su energía eléctrica proviene de fuentes renovables para todas sus operaciones. A través de proyectos de eficiencia y optimización energética en sus fábricas ha alcanzado una reducción de emisiones de gases de efecto invernadero en 30% con respecto al 2018.
+                          Así mismo, ha desarrollado programas de infraestructura de reciclaje para sensibilizar a sus principales stakeholders sobre la contaminación y así promover el uso y disposición responsable de los residuos.</p>
+                          <p><strong>Metas de reciclaje y rediseño al 2025:</strong></p>
+                          <ul class="list-disc list-inside">
+                              <li>Implementar 1000 estaciones de reciclaje en bodegas y espacios públicos con el programa “Recicla Cerca de ti”.</li>
+                              <li>Lograr que el 100% de los empaques sean diseñados para reciclar.</li>
+                              <li>Reducir el uso de plástico virgen en un tercio con respecto al 2018.</li>
+                          </ul>
+                          <p><strong>Metas de CO2:</strong></p>
+                          <ul class="list-disc list-inside">
+                              <li>Reducción de 20% de emisiones de CO2 al 2025.</li>
+                              <li>Reducción de 50% de emisiones de CO2 al 2030.</li>
+                              <li>Alcanzar el Net zero al 2050.</li>
+                          </ul>`
+            },
+            natura: {
+                title: "Natura",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoNatura2B-01.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoNatura2C-0Comp1.png" alt="Natura Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En natura nuestros compromisos por la vida son:</p>
+                          <ul class="list-disc list-inside">
+                              <li>Abrazar la circularidad y la regeneración</li>
+                              <li>Enfrentar la crisis climatica y proteger la amazonia</li>
+                              <li>Defender los Derechos Humanos para ser mas humanos.</li>
+                          </ul>`
+            },
+            movistar: {
+                title: "Movistar",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02MovoBlanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/03AusLogoMov.png" alt="Movistar Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En Movistar gestionamos bajo un enfoque “ESG at the core”, que es transversal a toda la compañía, y que toma en cuenta la aplicación de altos estándares ambientales, sociales y de gobernanza.</p>
+                          <p>Respecto a los primeros, la protección del ambiente es esencial para el desarrollo sostenible y somos conscientes de la responsabilidad que tenemos de contribuir a su conservación.</p>
+                          <p>Trabajamos en torno a construir un futuro más verde, para lo cual a través del poder de la digitalización buscamos contribuir a frenar el cambio climático. Para ello, contamos con metas ambientales ambiciosas, entre las que se encuentra ser una compañía cero residuos al 2030.</p>
+                          <p>Para lograrlo, contamos con un Plan de Economía Circular, en el que se trabaja en torno al ecodiseño, la reutilización y el reciclaje. En este último, impulsamos el proyecto “Mensaje al Planeta” para promover un adecuado reciclaje de RAEE (Residuos de Aparatos Eléctricos y Electrónicos). En el 2023, recolectamos más de 780 toneladas de RAEE (reciclados y reutilizados).</p>`
+            },
+            la_tinka: {
+                title: "La Tinka",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoTinkab.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/latinkaGrasa.png" alt="La Tinka Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En La Tinka creemos firmemente en la importancia de apoyar proyectos que contribuyan con la ayuda social y con el medio ambiente, así como también la de desarrollar una consciencia medio ambiental en nuestra sociedad. Es por ello que dentro de nuestros planes de acción promovemos internamente diferentes actividades que buscan impactar positivamente en la vida de nuestros colaboradores, sus familias y nuestra sociedad.</p>
+                          <p>Gracias a la venta de nuestras loterías, destinamos un porcentaje a las beneficencias de Lima, Huancayo, Jaén y, desde este año, Lambayeque para así contribuir con la iniciativa de cambiar la vida de las personas que más lo necesitan. Esta vez nos unimos por tercer año consecutivo a la campaña recicla consciente con el objetivo de seguir promoviendo buenas prácticas medio ambientales que impacten positivamente en el bienestar del planeta. Adicionalmente, desplegamos campañas que incentiven el reciclaje tanto en nuestras oficinas como en nuestras sedes a nivel nacional y finalmente buscamos incorporar la digitalización para reducir el consumo de papel en nuestra organización ya que somos conscientes del impacto negativo que tiene en el medio ambiente.</p>
+                          <p>De esta manera, nos comprometemos a seguir contribuyendo con buenas prácticas y acciones que impacten de manera positiva en nuestra sociedad y a aportar con acciones sostenibles por el bienestar de todos y todas en nuestro país.</p>`
+            },
+            kenv: {
+                title: "Kenv",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoKenvBlanco.png",
+                content: `<p>Información detallada sobre Kenv (Texto original: no disponible en el fragmento proporcionado para socios sin modal de contenido).</p>`
+            },
+            inka_farma: {
+                title: "Inkafarma",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Logotipoaliv02Blanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Alc01.png" alt="Inkafarma Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p><strong>Compromiso de Inkafarma con la Sostenibilidad Ambiental</strong><br>
+                          En Inkafarma, nos preocupamos de nuestros clientes y colaboradores a través de un compromiso sólido con la sostenibilidad. Nuestro propósito es cuida de la salud de las familias peruanas. Nuestro compromiso se materializa en varias iniciativas clave:</p>
+                          <ul class="list-disc list-inside">
+                              <li><strong>Gestión Responsable de Residuos:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
+                              <li><strong>Impulsar la eficiencia energética en nuestra empresa:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
+                              <li><strong>Delivery Sostenible:</strong> contamos con un parte de nuestra flota de delivery operada con movilidad sostenible.</li>
+                              <li><strong>Fomento de una Cultura Ambiental:</strong> Promovemos la educación y conciencia ambiental tanto dentro de nuestra organización como entre nuestros clientes y comunidades.</li>
+                          </ul>
+                          <p>Este año 2024, nuestros compromisos específicos incluyen:</p>
+                          <ul class="list-disc list-inside">
+                              <li>Obtener reconocimientos por nuestra gestión ambiental: la certificación de la 3era estrella Huella de Carbono Perú.</li>
+                              <li>Implementar luces LED de menor consumo de energía en todas nuestras operaciones y puntos de venta.</li>
+                              <li>Fomentar el reciclaje a través del programa de reciclaje en nuestros centros de Distribución y Recicla Botica. Reutilizando y Reciclando todo el cartón en nuestras operaciones.</li>
+                              <li>Desarrollar programas de educación ambiental para nuestros colaboradores y clientes.</li>
+                          </ul>
+                          <p>Estamos comprometidos a liderar con el ejemplo y construir un futuro más saludable y sostenible para todos. Juntos, podemos lograr un cambio positivo en nuestra sociedad y entorno.</p>`
+            },
+            gar: {
+                title: "Gar",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoGar02Blanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Garc01.png" alt="Gar Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>L'Oréal busca promover la belleza sostenible a través de su programa Green Beauty que tiene como objetivo transformar cada etapa de la cadena de valor para reducir de forma dramática el impacto ambiental.</p>
+                          <p><strong>Pilares foco de Green Beauty:</strong></p>
+                          <ul class="list-disc list-inside">
+                              <li><strong>Cruelty Free:</strong> Todos los productos Garnier están aprobados oficialmente por Cruelty Free International bajo el programa Leaping Bunny. Esta es la organización líder que trabaja para ponerle fin a las pruebas en animales y brinda el modelo de excelencia en contra del maltrato animal.</li>
+                              <li><strong>Fórmulas Veganas:</strong> 99% de los ingredientes de los productos Garnier son veganos (sin ingredientes derivados de animales).</li>
+                              <li><strong>Reciclaje:</strong> Elvive y Garnier está encaminado para que en el 2025 el 100% de los empaques de sus productos sean de plástico reciclado.</li>
+                          </ul>`
+            },
+            entel: {
+                title: "Entel",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoEntel2B-01.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoEntel_Mesa-de-trabajo-1-2.png" alt="Entel Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En Entel promovemos que más personas reciclen sus residuos de aparatos eléctricos y electrónicos (RAEE), a través campañas de sensibilización, participación en programas, charlas informativas, alianzas corporativas y activaciones.</p>
+                          <p>Así, en 2014 surge nuestro programa “Reciclemos para transformar”, que busca tomar conciencia sobre la importancia de disponer de manera responsable cada equipo electrónico.</p>
+                          <p>Los residuos recolectados son transportados por una empresa operadora de servicios de residuos sólidos y llevados al centro de reaprovechamiento para que los componentes puedan ser recuperados y empleados en otras industrias; fomentando así la economía circular.</p>`
+            },
+            brit: {
+                title: "Brit",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoBrit02Blanco.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Brit02.png" alt="Brit Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>Comprometidos con nuestra política ambiental a través de la cual buscamos prevenir y minimizar nuestro impacto ambiental, nuestras actividades se encuentran alineadas a los Objetivos de Desarrollo Sostenible (ODS) de la ONU y nos enfocamos en los siguientes temas: Educación ambiental, Huella de carbono, Gestión de residuos y Consumo Responsable.</p>`
+            },
+            arc: {
+                title: "Arca Continental",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoArca2B-01.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAC2-ColorComp.png" alt="Arca Continental Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>En Arca Continental Lindley transformamos nuestros empaques integrando principios de circularidad y eficiencia, reinventando la forma en cómo se diseñan, disponen y reciclan los materiales. Este enfoque se alinea con las demandas locales y globales para promover una economía circular como un factor estratégico del negocio.</p>
+                          <p>Junto a Coca-Cola, mantenemos la ruta de avances significativos para lograr Un Mundo Sin Residuos. Las metas establecidas a 2030 son:</p>
+                          <ul class="list-disc list-inside">
+                              <li>Los empaques incluirán, al menos, un 50% de material reciclado.</li>
+                              <li>Se fomentará la recolección equivalente del 100% de los empaques puestos en el mercado.</li>
+                          </ul>`
+            },
+            amayu: {
+                title: "Amayu",
+                logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoAmayu2B-01.png",
+                content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoAmayu2C-0Compl1.png" alt="Amayu Grande" class="w-full h-auto mb-4 rounded-lg"/>
+                          <p>AMAYU, la innovadora línea de jugos 100% naturales de Grupo AJE, es mucho más que una bebida nutritiva; es una historia de sostenibilidad y colaboración. En el corazón de la Amazonía y en la provincia cusqueña de Paucartambo, comunidades locales siguen estrictos procesos de manejo sostenible para recolectar super frutos como el aguaje, camu camu, acaí y aguaymanto, que dan vida a estos jugos sin azúcar ni conservantes añadidos, disponibles en presentaciones de Tetra Pak y vidrio. Trabajando de la mano con las comunidades, hemos alcanzado:</p>
+                          <ul class="list-disc list-inside">
+                              <li>+1,300,000 kilos de producción comprados a las comunidades amazónicas.</li>
+                              <li>+200 familias asociadas generando ingresos directos.</li>
+                              <li>24 comunidades amazónicas registradas para la capacitación y recolección.</li>
+                              <li>120.000 hectáreas de bosque protegidas en la amazonía.</li>
+                          </ul>
+                          <p><img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/PRESENTACION-GLOBAL-SOSTENIBILIDAD-AJE.pptx-1.png" alt="" width="1280" height="720" class="w-full h-auto mb-4 rounded-lg"/></p>
+                          <p><strong>Sostenibilidad:</strong><br>
+                          Grupo AJE ha implementado diversas iniciativas para incorporar material reciclado en sus envases y recolectar residuos mediante alianzas estratégicas. Entre sus principales proyectos destaca la colaboración con la Municipalidad de Machu Picchu Pueblo y la cadena de hoteles Inkaterra, que permitió reutilizar más del 80% de residuos aprovechables en la ciudadela. Gracias a este proyecto Machu Picchu fue la primera maravilla del mundo en recibir la certificación de Destino Carbono Neutral. Asimismo, en alianza con la Línea 1 del Metro de Lima y el Ministerio del Ambiente, Grupo AJE instaló diversos puntos de recolección de botellas plásticas en estaciones de tren.</p>`
+            }
+        };
+
+        document.querySelectorAll('.partner-logo').forEach(logo => {
+            logo.addEventListener('click', function() {
+                const partnerKey = this.dataset.partner;
+                const partnerInfo = partnersData[partnerKey];
+                if (partnerInfo) {
+                    document.getElementById('partner-modal-content').innerHTML = `
+                        <h2 class="text-3xl font-bold mb-4">${partnerInfo.title}</h2>
+                        ${partnerInfo.content}
+                    `;
+                    document.getElementById('partner-modal').classList.remove('hidden');
+                }
+            });
+        });
+
+        document.getElementById('close-partner-modal').addEventListener('click', function() {
+            document.getElementById('partner-modal').classList.add('hidden');
+            document.getElementById('partner-modal-content').innerHTML = ''; // Clear content
+        });
+
+        // Close modal when clicking outside content
+        document.getElementById('partner-modal').addEventListener('click', function(event) {
+            if (event.target === this) { // Only close if clicked on the overlay itself, not content
+                document.getElementById('partner-modal').classList.add('hidden');
+                document.getElementById('partner-modal-content').innerHTML = ''; // Clear content
+            }
+        });
+    </script>
+</body>
+</html>
