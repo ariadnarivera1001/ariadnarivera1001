@@ -107,7 +107,7 @@
 <body class="bg-gray-100">
 
     <!-- Header Section -->
-    <header class="section-background py-4">
+    <header class="section-background py-4 sticky top-0 z-50">
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
             <div class="flex-shrink-0 mb-4 md:mb-0">
                 <a href="index.html">
@@ -123,12 +123,13 @@
                 </button>
 
                 <!-- Desktop Menu -->
-                <ul id="desktop-menu" class="hidden md:flex space-x-6 text-white text-lg font-medium">
+                <ul id="desktop-menu" class="hidden md:flex space-x-6 text-white text-lg font-medium items-center">
                     <li><a href="#descarga" class="hover:text-green-300 transition-colors duration-200">Descarga</a></li>
-                    <li><a href="#estaciones" class="hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
-                    <li><a href="#recicla-en-casa" class="hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
-                    <li><a href="#mision-vision" class="hover:text-green-300 transition-colors duration-200">Misión y Visión</a></li>
-                    <li><a href="https://instagram.com/recipuntos.site" class="hover:text-green-300 transition-colors duration-200">Únete</a></li>
+                    <li><a href="#estaciones" class="hover:text-green-300 transition-colors duration-200">Estaciones</a></li>
+                    <li><a href="#recicla-en-casa" class="hover:text-green-300 transition-colors duration-200">Recicla</a></li>
+                    <li><a href="#mision-vision" class="hover:text-green-300 transition-colors duration-200">Nosotros</a></li>
+                    <li><a href="#recompensas" class="hover:text-green-300 transition-colors duration-200">Recompensas</a></li>
+                    <li><a href="https://instagram.com/recipuntos.site" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Únete</a></li>
                 </ul>
 
                 <!-- Mobile Menu (Dropdown) -->
@@ -137,6 +138,7 @@
                     <li class="py-2"><a href="#estaciones" class="block hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
                     <li class="py-2"><a href="#recicla-en-casa" class="block hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
                      <li class="py-2"><a href="#mision-vision" class="block hover:text-green-300 transition-colors duration-200">Misión y Visión</a></li>
+                     <li class="py-2"><a href="#recompensas" class="block hover:text-green-300 transition-colors duration-200">Recompensas</a></li>
                     <li class="py-2"><a href="https://instagram.com/recipuntos.site" class="block hover:text-green-300 transition-colors duration-200">Únete</a></li>
                 </ul>
             </nav>
@@ -488,6 +490,83 @@
                 <img src="https://github.com/ariadnarivera1001/ariadnarivera1001/blob/main/assets/images/reciclador_transparente.png?raw=true" alt="Recycling Quiz Image" class="mt-8 mx-auto w-full max-w-sm rounded-lg shadow-lg">
             </div>
         </section>
+
+        <!-- Rewards Section -->
+        <section id="recompensas" class="py-16 px-4 bg-gray-50 text-gray-800">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-4">🏆 Recompensas que te motivan a reciclar</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12">En ReciPuntos, tu compromiso con el planeta tiene valor. Cada vez que reciclas, participas en retos o tomas minicursos dentro de la app, acumulas ReciPuntos. Estos puntos pueden canjearse por recompensas útiles, sostenibles y pensadas para ti.</p>
+
+                <h3 class="text-3xl font-bold mb-8 text-green-600">🎉 ¿Qué puedes ganar?</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 text-left">
+                    <!-- Column 1 -->
+                    <div class="space-y-8">
+                        <!-- Discounts Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h4 class="text-2xl font-bold mb-4">✅ Descuentos en tiendas y servicios</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>S/5 o S/10 de descuento en cafeterías locales aliadas ☕</li>
+                                <li>10% – 20% de descuento en tiendas ecológicas o de productos reutilizables</li>
+                                <li>S/3 de descuento en apps de delivery (convenio con marcas responsables)</li>
+                            </ul>
+                        </div>
+                        <!-- Transport Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h4 class="text-2xl font-bold mb-4">✅ Transporte y movilidad</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>S/2 de saldo para recarga de tarjeta de transporte público (como la Tarjeta Lima Pass)</li>
+                                <li>Cupones de S/3 – S/5 para taxis ecológicos o bicicletas compartidas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Column 2 -->
+                    <div class="space-y-8">
+                        <!-- Products Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h4 class="text-2xl font-bold mb-4">✅ Productos gratuitos o sostenibles</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>Bolsas reutilizables por 50 ReciPuntos</li>
+                                <li>Cepillos de bambú por 70 ReciPuntos</li>
+                                <li>Botellas ecológicas por 120 ReciPuntos</li>
+                                <li>Kit escolar reciclado por 150 ReciPuntos</li>
+                            </ul>
+                        </div>
+                        <!-- Cash & Raffles Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h4 class="text-2xl font-bold mb-4">✅ Premios en efectivo y sorteos</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>Participa en sorteos mensuales de S/30 a S/100</li>
+                                <li>Gana vales de consumo en supermercados como Tottus, Metro o Plaza Vea</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impact Section -->
+                <div class="mt-16 bg-green-100 border-l-4 border-green-500 text-green-800 p-6 rounded-r-lg text-left max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-bold mb-4">🌎 Además, cada acción suma impacto</h3>
+                    <p class="mb-4">Tus puntos no solo te benefician a ti: también aportas a un planeta más limpio. Al usar ReciPuntos:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Evitas que plásticos terminen en el océano</li>
+                        <li>Apoyas a recicladores urbanos</li>
+                        <li>Promueves la educación ambiental en colegios públicos</li>
+                    </ul>
+                </div>
+
+                <!-- Example Section -->
+                <div class="mt-12 bg-gray-800 text-white p-8 rounded-xl shadow-2xl max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold mb-4 text-green-400">💡 Ejemplo de cómo sumar:</h3>
+                    <ul class="space-y-2 text-lg">
+                        <li><span class="font-bold">Recicla 3 botellas</span> = 3 ReciPuntos 🔁</li>
+                        <li><span class="font-bold">Completa un reto semanal</span> = 10 ReciPuntos 🎯</li>
+                        <li><span class="font-bold">Termina un minicurso</span> = 15 ReciPuntos 📚</li>
+                    </ul>
+                    <p class="mt-6 text-xl font-semibold bg-green-500 text-gray-900 rounded-lg py-2 px-4 inline-block">¡Con solo 60 puntos ya puedes canjear una recompensa real!</p>
+                </div>
+            </div>
+        </section>
+
 
         <!-- Partners Section -->
 
