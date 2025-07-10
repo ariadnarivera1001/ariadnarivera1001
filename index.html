@@ -127,6 +127,7 @@
                     <li><a href="#descarga" class="hover:text-green-300 transition-colors duration-200">Descarga</a></li>
                     <li><a href="#estaciones" class="hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
                     <li><a href="#recicla-en-casa" class="hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
+                    <li><a href="#mision-vision" class="hover:text-green-300 transition-colors duration-200">Misión y Visión</a></li>
                     <li><a href="https://instagram.com/recipuntos.site" class="hover:text-green-300 transition-colors duration-200">Únete</a></li>
                 </ul>
 
@@ -135,6 +136,7 @@
                     <li class="py-2"><a href="#descarga" class="block hover:text-green-300 transition-colors duration-200">Descarga</a></li>
                     <li class="py-2"><a href="#estaciones" class="block hover:text-green-300 transition-colors duration-200">Estaciones de reciclaje</a></li>
                     <li class="py-2"><a href="#recicla-en-casa" class="block hover:text-green-300 transition-colors duration-200">Recicla en casa</a></li>
+                     <li class="py-2"><a href="#mision-vision" class="block hover:text-green-300 transition-colors duration-200">Misión y Visión</a></li>
                     <li class="py-2"><a href="https://instagram.com/recipuntos.site" class="block hover:text-green-300 transition-colors duration-200">Únete</a></li>
                 </ul>
             </nav>
@@ -145,7 +147,7 @@
 
     <main class="site-main">
         <!-- New ReciPuntos App Download Section -->
-        <section class="bg-white py-16 px-4 text-gray-800 text-center">
+        <section id="descarga" class="bg-white py-16 px-4 text-gray-800 text-center">
             <div class="container mx-auto flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
                 <!-- Left Column: Text and Download Buttons -->
                 <div class="flex flex-col items-center md:items-start max-w-md text-center md:text-left">
@@ -417,7 +419,7 @@
         </section>
 
         <!-- Mission and Vision Section -->
-        <section class="section-background py-16 px-4 text-white">
+        <section id="mision-vision" class="section-background py-16 px-4 text-white">
             <div class="container mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
@@ -591,18 +593,26 @@
 
             let start = 0;
             const end = parseInt(target);
+            if (isNaN(end)) return; // Exit if target is not a number
+
             const range = end - start;
             let current = start;
-            const increment = end > start ? 1 : -1;
-            const stepTime = Math.abs(Math.floor(duration / range));
+            const increment = end > start ? Math.ceil(range / (duration / 16)) : -1; // Adjust increment for smoother animation
+             if (range === 0) {
+                element.textContent = end.toLocaleString('en-US');
+                return;
+            }
+            
+            const stepTime = Math.abs(Math.floor(duration / (range/increment)));
 
             const timer = setInterval(() => {
                 current += increment;
-                element.textContent = current.toLocaleString('en-US'); // Add comma separators
-                if (current == end) {
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
                     clearInterval(timer);
                 }
-            }, stepTime);
+                element.textContent = Math.ceil(current).toLocaleString('en-US'); // Add comma separators
+            }, 16); // Run at approx 60fps
         }
 
         // Trigger counters on scroll
@@ -660,94 +670,94 @@
                 title: "Colgate",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoColga2B.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoColgateGCompe.png" alt="Colgate Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-1.png" alt="Colgate Commitment 1" class="w-full h-auto mb-4 rounded-lg"/>
-                            <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-2.png" alt="Colgate Commitment 2" class="w-full h-auto mb-4 rounded-lg"/>`
+                                <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-1.png" alt="Colgate Commitment 1" class="w-full h-auto mb-4 rounded-lg"/>
+                                <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/image-2.png" alt="Colgate Commitment 2" class="w-full h-auto mb-4 rounded-lg"/>`
             },
             zegel: {
                 title: "Zegel",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoZege2b.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoZege2CGra.png" alt="Zegel Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>Desde Zegel nos hemos propuesto integrar la sostenibilidad como un pilar de aprendizaje y desarrollo para cada uno de nuestros estudiantes y la comunidad. De esa manera, generamos un impacto positivo en el ámbito ambiental y social de nuestro entorno, como parte de nuestro compromiso con la educación y el medioambiente.</p>`
+                                <p>Desde Zegel nos hemos propuesto integrar la sostenibilidad como un pilar de aprendizaje y desarrollo para cada uno de nuestros estudiantes y la comunidad. De esa manera, generamos un impacto positivo en el ámbito ambiental y social de nuestro entorno, como parte de nuestro compromiso con la educación y el medioambiente.</p>`
             },
             utp: {
                 title: "UTP",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02UTPBlanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/03AusLogoUTP.png" alt="UTP Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En la UTP queremos transformar la vida de cada uno de nuestros estudiantes para siempre. Eso implica un compromiso con la Sostenibilidad. Buscamos ser referentes en la transferencia de conocimiento y desarrollo tecnológico a través de nuestros centros de investigación, en el desarrollo de conciencia de sostenibilidad en nuestra formación académica y políticas de responsabilidad social y relación con el entorno.</p>
-                            <p>Nuestros compromisos para el presente año son:</p>
-                            <ul class="list-disc list-inside">
-                                <li>Obtención de la primera estrella de la Huella de Carbono Perú por parte del MINAM</li>
-                                <li>Plan de Gestión Ambiental como directriz para todos nuestros campus</li>
-                                <li>Impulsar la investigación y transferencia en temas de gestión ambiental.</li>
-                                <li>Activar en nuestra comunidad universitaria competencias de sostenibilidad desde el frente ambiental y social.</li>
-                            </ul>`
+                                <p>En la UTP queremos transformar la vida de cada uno de nuestros estudiantes para siempre. Eso implica un compromiso con la Sostenibilidad. Buscamos ser referentes en la transferencia de conocimiento y desarrollo tecnológico a través de nuestros centros de investigación, en el desarrollo de conciencia de sostenibilidad en nuestra formación académica y políticas de responsabilidad social y relación con el entorno.</p>
+                                <p>Nuestros compromisos para el presente año son:</p>
+                                <ul class="list-disc list-inside">
+                                    <li>Obtención de la primera estrella de la Huella de Carbono Perú por parte del MINAM</li>
+                                    <li>Plan de Gestión Ambiental como directriz para todos nuestros campus</li>
+                                    <li>Impulsar la investigación y transferencia en temas de gestión ambiental.</li>
+                                    <li>Activar en nuestra comunidad universitaria competencias de sostenibilidad desde el frente ambiental y social.</li>
+                                </ul>`
             },
             unilever: {
                 title: "Unilever",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoUnileverBlanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoUnileverGrCompande.png" alt="Unilever Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>Somos una compañía de marcas y personas con un propósito claro: hacer de la sustentabilidad algo cotidiano.</p>
-                            <p>A más de 10 años de presentar el Plan de Vida Sustentable de Unilever con el fin de demostrar que la sustentabilidad y el crecimiento del negocio están vinculados, nos proponemos crear un movimiento en el que todos nuestros proveedores, clientes y consumidores sean parte de la construcción de un futuro mejor.</p>
-                            <p>Nuestra estrategia de sustentabilidad está basada en 3 grandes áreas: mejorar la salud del planeta; mejorar la salud, confianza y bienestar de las personas; y contribuir con un mundo más justo y socialmente inclusivo.</p>
-                            <p>En 2019 establecimos importantes metas para acelerar la transición hacia una economía circular. Para 2025 nos comprometemos a:<br>
-                            Reducir a la mitad el uso de plástico virgen, eliminando más de 100.000 toneladas de plástico de nuestros empaques.<br>
-                            Acelerar el uso de plástico reciclado (PCR), logrando un 25% de uso de PCR en nuestros envases.<br>
-                            Ayudar a recolectar y procesar más envases plásticos de los que vendemos.<br>
-                            Lograr que el 100% de nuestros envases sean reciclables, reutilizables o aptos para compostaje.</p>`
+                                <p>Somos una compañía de marcas y personas con un propósito claro: hacer de la sustentabilidad algo cotidiano.</p>
+                                <p>A más de 10 años de presentar el Plan de Vida Sustentable de Unilever con el fin de demostrar que la sustentabilidad y el crecimiento del negocio están vinculados, nos proponemos crear un movimiento en el que todos nuestros proveedores, clientes y consumidores sean parte de la construcción de un futuro mejor.</p>
+                                <p>Nuestra estrategia de sustentabilidad está basada en 3 grandes áreas: mejorar la salud del planeta; mejorar la salud, confianza y bienestar de las personas; y contribuir con un mundo más justo y socialmente inclusivo.</p>
+                                <p>En 2019 establecimos importantes metas para acelerar la transición hacia una economía circular. Para 2025 nos comprometemos a:<br>
+                                Reducir a la mitad el uso de plástico virgen, eliminando más de 100.000 toneladas de plástico de nuestros empaques.<br>
+                                Acelerar el uso de plástico reciclado (PCR), logrando un 25% de uso de PCR en nuestros envases.<br>
+                                Ayudar a recolectar y procesar más envases plásticos de los que vendemos.<br>
+                                Lograr que el 100% de nuestros envases sean reciclables, reutilizables o aptos para compostaje.</p>`
             },
             softys: {
                 title: "Softys",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoSoftys2B-01.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoSoftys2BBP.png" alt="Softys Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p> <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Softcompr-1024x615.png" alt="" width="800" height="480" class="w-full h-auto mb-4 rounded-lg"/></p>`
+                                <p> <img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Softcompr-1024x615.png" alt="" width="800" height="480" class="w-full h-auto mb-4 rounded-lg"/></p>`
             },
             nestle: {
                 title: "Nestlé",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoNestb.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/nestlcompe.png" alt="Nestlé Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p><strong>Texto de Compromiso</strong><br>
-                            Nestlé Perú está comprometido para que al 2025 todos sus empaques sean diseñados para reciclar, así como también reducir en un tercio el uso de plástico virgen en sus empaques. Además; hoy el 100% de su energía eléctrica proviene de fuentes renovables para todas sus operaciones. A través de proyectos de eficiencia y optimización energética en sus fábricas ha alcanzado una reducción de emisiones de gases de efecto invernadero en 30% con respecto al 2018.
-                            Así mismo, ha desarrollado programas de infraestructura de reciclaje para sensibilizar a sus principales stakeholders sobre la contaminación y así promover el uso y disposición responsable de los residuos.</p>
-                            <p><strong>Metas de reciclaje y rediseño al 2025:</strong></p>
-                            <ul class="list-disc list-inside">
-                                <li>Implementar 1000 estaciones de reciclaje en bodegas y espacios públicos con el programa “Recicla Cerca de ti”.</li>
-                                <li>Lograr que el 100% de los empaques sean diseñados para reciclar.</li>
-                                <li>Reducir el uso de plástico virgen en un tercio con respecto al 2018.</li>
-                            </ul>
-                            <p><strong>Metas de CO2:</strong></p>
-                            <ul class="list-disc list-inside">
-                                <li>Reducción de 20% de emisiones de CO2 al 2025.</li>
-                                <li>Reducción de 50% de emisiones de CO2 al 2030.</li>
-                                <li>Alcanzar el Net zero al 2050.</li>
-                            </ul>`
+                                <p><strong>Texto de Compromiso</strong><br>
+                                Nestlé Perú está comprometido para que al 2025 todos sus empaques sean diseñados para reciclar, así como también reducir en un tercio el uso de plástico virgen en sus empaques. Además; hoy el 100% de su energía eléctrica proviene de fuentes renovables para todas sus operaciones. A través de proyectos de eficiencia y optimización energética en sus fábricas ha alcanzado una reducción de emisiones de gases de efecto invernadero en 30% con respecto al 2018.
+                                Así mismo, ha desarrollado programas de infraestructura de reciclaje para sensibilizar a sus principales stakeholders sobre la contaminación y así promover el uso y disposición responsable de los residuos.</p>
+                                <p><strong>Metas de reciclaje y rediseño al 2025:</strong></p>
+                                <ul class="list-disc list-inside">
+                                    <li>Implementar 1000 estaciones de reciclaje en bodegas y espacios públicos con el programa “Recicla Cerca de ti”.</li>
+                                    <li>Lograr que el 100% de los empaques sean diseñados para reciclar.</li>
+                                    <li>Reducir el uso de plástico virgen en un tercio con respecto al 2018.</li>
+                                </ul>
+                                <p><strong>Metas de CO2:</strong></p>
+                                <ul class="list-disc list-inside">
+                                    <li>Reducción de 20% de emisiones de CO2 al 2025.</li>
+                                    <li>Reducción de 50% de emisiones de CO2 al 2030.</li>
+                                    <li>Alcanzar el Net zero al 2050.</li>
+                                </ul>`
             },
             natura: {
                 title: "Natura",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoNatura2B-01.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoNatura2C-0Comp1.png" alt="Natura Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En natura nuestros compromisos por la vida son:</p>
-                            <ul class="list-disc list-inside">
-                                <li>Abrazar la circularidad y la regeneración</li>
-                                <li>Enfrentar la crisis climatica y proteger la amazonia</li>
-                                <li>Defender los Derechos Humanos para ser mas humanos.</li>
-                            </ul>`
+                                <p>En natura nuestros compromisos por la vida son:</p>
+                                <ul class="list-disc list-inside">
+                                    <li>Abrazar la circularidad y la regeneración</li>
+                                    <li>Enfrentar la crisis climatica y proteger la amazonia</li>
+                                    <li>Defender los Derechos Humanos para ser mas humanos.</li>
+                                </ul>`
             },
             movistar: {
                 title: "Movistar",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Web02MovoBlanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/03AusLogoMov.png" alt="Movistar Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En Movistar gestionamos bajo un enfoque “ESG at the core”, que es transversal a toda la compañía, y que toma en cuenta la aplicación de altos estándares ambientales, sociales y de gobernanza.</p>
-                            <p>Respecto a los primeros, la protección del ambiente es esencial para el desarrollo sostenible y somos conscientes de la responsabilidad que tenemos de contribuir a su conservación.</p>
-                            <p>Trabajamos en torno a construir un futuro más verde, para lo cual a través del poder de la digitalización buscamos contribuir a frenar el cambio climático. Para ello, contamos con metas ambientales ambiciosas, entre las que se encuentra ser una compañía cero residuos al 2030.</p>
-                            <p>Para lograrlo, contamos con un Plan de Economía Circular, en el que se trabaja en torno al ecodiseño, la reutilización y el reciclaje. En este último, impulsamos el proyecto “Mensaje al Planeta” para promover un adecuado reciclaje de RAEE (Residuos de Aparatos Eléctricos y Electrónicos). En el 2023, recolectamos más de 780 toneladas de RAEE (reciclados y reutilizados).</p>`
+                                <p>En Movistar gestionamos bajo un enfoque “ESG at the core”, que es transversal a toda la compañía, y que toma en cuenta la aplicación de altos estándares ambientales, sociales y de gobernanza.</p>
+                                <p>Respecto a los primeros, la protección del ambiente es esencial para el desarrollo sostenible y somos conscientes de la responsabilidad que tenemos de contribuir a su conservación.</p>
+                                <p>Trabajamos en torno a construir un futuro más verde, para lo cual a través del poder de la digitalización buscamos contribuir a frenar el cambio climático. Para ello, contamos con metas ambientales ambiciosas, entre las que se encuentra ser una compañía cero residuos al 2030.</p>
+                                <p>Para lograrlo, contamos con un Plan de Economía Circular, en el que se trabaja en torno al ecodiseño, la reutilización y el reciclaje. En este último, impulsamos el proyecto “Mensaje al Planeta” para promover un adecuado reciclaje de RAEE (Residuos de Aparatos Eléctricos y Electrónicos). En el 2023, recolectamos más de 780 toneladas de RAEE (reciclados y reutilizados).</p>`
             },
             la_tinka: {
                 title: "La Tinka",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoTinkab.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/latinkaGrasa.png" alt="La Tinka Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En La Tinka creemos firmemente en la importancia de apoyar proyectos que contribuyan con la ayuda social y con el medio ambiente, así como también la de desarrollar una consciencia medio ambiental en nuestra sociedad. Es por ello que dentro de nuestros planes de acción promovemos internamente diferentes actividades que buscan impactar positivamente en la vida de nuestros colaboradores, sus familias y nuestra sociedad.</p>
-                            <p>Gracias a la venta de nuestras loterías, destinamos un porcentaje a las beneficencias de Lima, Huancayo, Jaén y, desde este año, Lambayeque para así contribuir con la iniciativa de cambiar la vida de las personas que más lo necesitan. Esta vez nos unimos por tercer año consecutivo a la campaña recicla consciente con el objetivo de seguir promoviendo buenas prácticas medio ambientales que impacten positivamente en el bienestar del planeta. Adicionalmente, desplegamos campañas que incentiven el reciclaje tanto en nuestras oficinas como en nuestras sedes a nivel nacional y finalmente buscamos incorporar la digitalización para reducir el consumo de papel en nuestra organización ya que somos conscientes del impacto negativo que tiene en el medio ambiente.</p>
-                            <p>De esta manera, nos comprometemos a seguir contribuyendo con buenas prácticas y acciones que impacten de manera positiva en nuestra sociedad y a aportar con acciones sostenibles por el bienestar de todos y todas en nuestro país.</p>`
+                                <p>En La Tinka creemos firmemente en la importancia de apoyar proyectos que contribuyan con la ayuda social y con el medio ambiente, así como también la de desarrollar una consciencia medio ambiental en nuestra sociedad. Es por ello que dentro de nuestros planes de acción promovemos internamente diferentes actividades que buscan impactar positivamente en la vida de nuestros colaboradores, sus familias y nuestra sociedad.</p>
+                                <p>Gracias a la venta de nuestras loterías, destinamos un porcentaje a las beneficencias de Lima, Huancayo, Jaén y, desde este año, Lambayeque para así contribuir con la iniciativa de cambiar la vida de las personas que más lo necesitan. Esta vez nos unimos por tercer año consecutivo a la campaña recicla consciente con el objetivo de seguir promoviendo buenas prácticas medio ambientales que impacten positivamente en el bienestar del planeta. Adicionalmente, desplegamos campañas que incentiven el reciclaje tanto en nuestras oficinas como en nuestras sedes a nivel nacional y finalmente buscamos incorporar la digitalización para reducir el consumo de papel en nuestra organización ya que somos conscientes del impacto negativo que tiene en el medio ambiente.</p>
+                                <p>De esta manera, nos comprometemos a seguir contribuyendo con buenas prácticas y acciones que impacten de manera positiva en nuestra sociedad y a aportar con acciones sostenibles por el bienestar de todos y todas en nuestro país.</p>`
             },
             kenv: {
                 title: "Kenv",
@@ -758,74 +768,74 @@
                 title: "Inkafarma",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/Logotipoaliv02Blanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Alc01.png" alt="Inkafarma Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p><strong>Compromiso de Inkafarma con la Sostenibilidad Ambiental</strong><br>
-                            En Inkafarma, nos preocupamos de nuestros clientes y colaboradores a través de un compromiso sólido con la sostenibilidad. Nuestro propósito es cuida de la salud de las familias peruanas. Nuestro compromiso se materializa en varias iniciativas clave:</p>
-                            <ul class="list-disc list-inside">
-                                <li><strong>Gestión Responsable de Residuos:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
-                                <li><strong>Impulsar la eficiencia energética en nuestra empresa:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
-                                <li><strong>Delivery Sostenible:</strong> contamos con un parte de nuestra flota de delivery operada con movilidad sostenible.</li>
-                                <li><strong>Fomento de una Cultura Ambiental:</strong> Promovemos la educación y conciencia ambiental tanto dentro de nuestra organización como entre nuestros clientes y comunidades.</li>
-                            </ul>
-                            <p>Este año 2024, nuestros compromisos específicos incluyen:</p>
-                            <ul class="list-disc list-inside">
-                                <li>Obtener reconocimientos por nuestra gestión ambiental: la certificación de la 3era estrella Huella de Carbono Perú.</li>
-                                <li>Implementar luces LED de menor consumo de energía en todas nuestras operaciones y puntos de venta.</li>
-                                <li>Fomentar el reciclaje a través del programa de reciclaje en nuestros centros de Distribución y Recicla Botica. Reutilizando y Reciclando todo el cartón en nuestras operaciones.</li>
-                                <li>Desarrollar programas de educación ambiental para nuestros colaboradores y clientes.</li>
-                            </ul>
-                            <p>Estamos comprometidos a liderar con el ejemplo y construir un futuro más saludable y sostenible para todos. Juntos, podemos lograr un cambio positivo en nuestra sociedad y entorno.</p>`
+                                <p><strong>Compromiso de Inkafarma con la Sostenibilidad Ambiental</strong><br>
+                                En Inkafarma, nos preocupamos de nuestros clientes y colaboradores a través de un compromiso sólido con la sostenibilidad. Nuestro propósito es cuida de la salud de las familias peruanas. Nuestro compromiso se materializa en varias iniciativas clave:</p>
+                                <ul class="list-disc list-inside">
+                                    <li><strong>Gestión Responsable de Residuos:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
+                                    <li><strong>Impulsar la eficiencia energética en nuestra empresa:</strong> Establecemos planes de gestión ambiental en todas nuestras instalaciones para minimizar nuestro impacto en el entorno.</li>
+                                    <li><strong>Delivery Sostenible:</strong> contamos con un parte de nuestra flota de delivery operada con movilidad sostenible.</li>
+                                    <li><strong>Fomento de una Cultura Ambiental:</strong> Promovemos la educación y conciencia ambiental tanto dentro de nuestra organización como entre nuestros clientes y comunidades.</li>
+                                </ul>
+                                <p>Este año 2024, nuestros compromisos específicos incluyen:</p>
+                                <ul class="list-disc list-inside">
+                                    <li>Obtener reconocimientos por nuestra gestión ambiental: la certificación de la 3era estrella Huella de Carbono Perú.</li>
+                                    <li>Implementar luces LED de menor consumo de energía en todas nuestras operaciones y puntos de venta.</li>
+                                    <li>Fomentar el reciclaje a través del programa de reciclaje en nuestros centros de Distribución y Recicla Botica. Reutilizando y Reciclando todo el cartón en nuestras operaciones.</li>
+                                    <li>Desarrollar programas de educación ambiental para nuestros colaboradores y clientes.</li>
+                                </ul>
+                                <p>Estamos comprometidos a liderar con el ejemplo y construir un futuro más saludable y sostenible para todos. Juntos, podemos lograr un cambio positivo en nuestra sociedad y entorno.</p>`
             },
             gar: {
                 title: "Gar",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoGar02Blanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Garc01.png" alt="Gar Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>L'Oréal busca promover la belleza sostenible a través de su programa Green Beauty que tiene como objetivo transformar cada etapa de la cadena de valor para reducir de forma dramática el impacto ambiental.</p>
-                            <p><strong>Pilares foco de Green Beauty:</strong></p>
-                            <ul class="list-disc list-inside">
-                                <li><strong>Cruelty Free:</strong> Todos los productos Garnier están aprobados oficialmente por Cruelty Free International bajo el programa Leaping Bunny. Esta es la organización líder que trabaja para ponerle fin a las pruebas en animales y brinda el modelo de excelencia en contra del maltrato animal.</li>
-                                <li><strong>Fórmulas Veganas:</strong> 99% de los ingredientes de los productos Garnier son veganos (sin ingredientes derivados de animales).</li>
-                                <li><strong>Reciclaje:</strong> Elvive y Garnier está encaminado para que en el 2025 el 100% de los empaques de sus productos sean de plástico reciclado.</li>
-                            </ul>`
+                                <p>L'Oréal busca promover la belleza sostenible a través de su programa Green Beauty que tiene como objetivo transformar cada etapa de la cadena de valor para reducir de forma dramática el impacto ambiental.</p>
+                                <p><strong>Pilares foco de Green Beauty:</strong></p>
+                                <ul class="list-disc list-inside">
+                                    <li><strong>Cruelty Free:</strong> Todos los productos Garnier están aprobados oficialmente por Cruelty Free International bajo el programa Leaping Bunny. Esta es la organización líder que trabaja para ponerle fin a las pruebas en animales y brinda el modelo de excelencia en contra del maltrato animal.</li>
+                                    <li><strong>Fórmulas Veganas:</strong> 99% de los ingredientes de los productos Garnier son veganos (sin ingredientes derivados de animales).</li>
+                                    <li><strong>Reciclaje:</strong> Elvive y Garnier está encaminado para que en el 2025 el 100% de los empaques de sus productos sean de plástico reciclado.</li>
+                                </ul>`
             },
             entel: {
                 title: "Entel",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoEntel2B-01.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoEntel_Mesa-de-trabajo-1-2.png" alt="Entel Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En Entel promovemos que más personas reciclen sus residuos de aparatos eléctricos y electrónicos (RAEE), a través campañas de sensibilización, participación en programas, charlas informativas, alianzas corporativas y activaciones.</p>
-                            <p>Así, en 2014 surge nuestro programa “Reciclemos para transformar”, que busca tomar conciencia sobre la importancia de disponer de manera responsable cada equipo electrónico.</p>
-                            <p>Los residuos recolectados son transportados por una empresa operadora de servicios de residuos sólidos y llevados al centro de reaprovechamiento para que los componentes puedan ser recuperados y empleados en otras industrias; fomentando así la economía circular.</p>`
+                                <p>En Entel promovemos que más personas reciclen sus residuos de aparatos eléctricos y electrónicos (RAEE), a través campañas de sensibilización, participación en programas, charlas informativas, alianzas corporativas y activaciones.</p>
+                                <p>Así, en 2014 surge nuestro programa “Reciclemos para transformar”, que busca tomar conciencia sobre la importancia de disponer de manera responsable cada equipo electrónico.</p>
+                                <p>Los residuos recolectados son transportados por una empresa operadora de servicios de residuos sólidos y llevados al centro de reaprovechamiento para que los componentes puedan ser recuperados y empleados en otras industrias; fomentando así la economía circular.</p>`
             },
             brit: {
                 title: "Brit",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoBrit02Blanco.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/Brit02.png" alt="Brit Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>Comprometidos con nuestra política ambiental a través de la cual buscamos prevenir y minimizar nuestro impacto ambiental, nuestras actividades se encuentran alineadas a los Objetivos de Desarrollo Sostenible (ODS) de la ONU y nos enfocamos en los siguientes temas: Educación ambiental, Huella de carbono, Gestión de residuos y Consumo Responsable.</p>`
+                                <p>Comprometidos con nuestra política ambiental a través de la cual buscamos prevenir y minimizar nuestro impacto ambiental, nuestras actividades se encuentran alineadas a los Objetivos de Desarrollo Sostenible (ODS) de la ONU y nos enfocamos en los siguientes temas: Educación ambiental, Huella de carbono, Gestión de residuos y Consumo Responsable.</p>`
             },
             arc: {
                 title: "Arca Continental",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoArca2B-01.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogoAC2-ColorComp.png" alt="Arca Continental Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>En Arca Continental Lindley transformamos nuestros empaques integrando principios de circularidad y eficiencia, reinventando la forma en cómo se diseñan, disponen y reciclan los materiales. Este enfoque se alinea con las demandas locales y globales para promover una economía circular como un factor estratégico del negocio.</p>
-                            <p>Junto a Coca-Cola, mantenemos la ruta de avances significativos para lograr Un Mundo Sin Residuos. Las metas establecidas a 2030 son:</p>
-                            <ul class="list-disc list-inside">
-                                <li>Los empaques incluirán, al menos, un 50% de material reciclado.</li>
-                                <li>Se fomentará la recolección equivalente del 100% de los empaques puestos en el mercado.</li>
-                            </ul>`
+                                <p>En Arca Continental Lindley transformamos nuestros empaques integrando principios de circularidad y eficiencia, reinventando la forma en cómo se diseñan, disponen y reciclan los materiales. Este enfoque se alinea con las demandas locales y globales para promover una economía circular como un factor estratégico del negocio.</p>
+                                <p>Junto a Coca-Cola, mantenemos la ruta de avances significativos para lograr Un Mundo Sin Residuos. Las metas establecidas a 2030 son:</p>
+                                <ul class="list-disc list-inside">
+                                    <li>Los empaques incluirán, al menos, un 50% de material reciclado.</li>
+                                    <li>Se fomentará la recolección equivalente del 100% de los empaques puestos en el mercado.</li>
+                                </ul>`
             },
             amayu: {
                 title: "Amayu",
                 logo: "https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoAmayu2B-01.png",
                 content: `<img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/LogotipoAmayu2C-0Compl1.png" alt="Amayu Grande" class="w-full h-auto mb-4 rounded-lg"/>
-                            <p>AMAYU, la innovadora línea de jugos 100% naturales de Grupo AJE, es mucho más que una bebida nutritiva; es una historia de sostenibilidad y colaboración. En el corazón de la Amazonía y en la provincia cusqueña de Paucartambo, comunidades locales siguen estrictos procesos de manejo sostenible para recolectar super frutos como el aguaje, camu camu, acaí y aguaymanto, que dan vida a estos jugos sin azúcar ni conservantes añadidos, disponibles en presentaciones de Tetra Pak y vidrio. Trabajando de la mano con las comunidades, hemos alcanzado:</p>
-                            <ul class="list-disc list-inside">
-                                <li>+1,300,000 kilos de producción comprados a las comunidades amazónicas.</li>
-                                <li>+200 familias asociadas generando ingresos directos.</li>
-                                <li>24 comunidades amazónicas registradas para la capacitación y recolección.</li>
-                                <li>120.000 hectáreas de bosque protegidas en la amazonía.</li>
-                            </ul>
-                            <p><img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/PRESENTACION-GLOBAL-SOSTENIBILIDAD-AJE.pptx-1.png" alt="" width="1280" height="720" class="w-full h-auto mb-4 rounded-lg"/></p>
-                            <p><strong>Sostenibilidad:</strong><br>
-                            Grupo AJE ha implementado diversas iniciativas para incorporar material reciclado en sus envases y recolectar residuos mediante alianzas estratégicas. Entre sus principales proyectos destaca la colaboración con la Municipalidad de Machu Picchu Pueblo y la cadena de hoteles Inkaterra, que permitió reutilizar más del 80% de residuos aprovechables en la ciudadela. Gracias a este proyecto Machu Picchu fue la primera maravilla del mundo en recibir la certificación de Destino Carbono Neutral. Asimismo, en alianza con la Línea 1 del Metro de Lima y el Ministerio del Ambiente, Grupo AJE instaló diversos puntos de recolección de botellas plásticas en estaciones de tren.</p>`
+                                <p>AMAYU, la innovadora línea de jugos 100% naturales de Grupo AJE, es mucho más que una bebida nutritiva; es una historia de sostenibilidad y colaboración. En el corazón de la Amazonía y en la provincia cusqueña de Paucartambo, comunidades locales siguen estrictos procesos de manejo sostenible para recolectar super frutos como el aguaje, camu camu, acaí y aguaymanto, que dan vida a estos jugos sin azúcar ni conservantes añadidos, disponibles en presentaciones de Tetra Pak y vidrio. Trabajando de la mano con las comunidades, hemos alcanzado:</p>
+                                <ul class="list-disc list-inside">
+                                    <li>+1,300,000 kilos de producción comprados a las comunidades amazónicas.</li>
+                                    <li>+200 familias asociadas generando ingresos directos.</li>
+                                    <li>24 comunidades amazónicas registradas para la capacitación y recolección.</li>
+                                    <li>120.000 hectáreas de bosque protegidas en la amazonía.</li>
+                                </ul>
+                                <p><img src="https://reciclaconsciente.pe/wp-content/uploads/2025/05/PRESENTACION-GLOBAL-SOSTENIBILIDAD-AJE.pptx-1.png" alt="" width="1280" height="720" class="w-full h-auto mb-4 rounded-lg"/></p>
+                                <p><strong>Sostenibilidad:</strong><br>
+                                Grupo AJE ha implementado diversas iniciativas para incorporar material reciclado en sus envases y recolectar residuos mediante alianzas estratégicas. Entre sus principales proyectos destaca la colaboración con la Municipalidad de Machu Picchu Pueblo y la cadena de hoteles Inkaterra, que permitió reutilizar más del 80% de residuos aprovechables en la ciudadela. Gracias a este proyecto Machu Picchu fue la primera maravilla del mundo en recibir la certificación de Destino Carbono Neutral. Asimismo, en alianza con la Línea 1 del Metro de Lima y el Ministerio del Ambiente, Grupo AJE instaló diversos puntos de recolección de botellas plásticas en estaciones de tren.</p>`
             }
         };
 
